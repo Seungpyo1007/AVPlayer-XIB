@@ -12,29 +12,27 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
 
-    private let itemsPerRow: CGFloat = 2
-    private let spacing: CGFloat = 12
-    private let inset: CGFloat = 12
+    private enum Layout {
+        static let itemsPerRow: CGFloat = 2
+        static let spacing: CGFloat = 12
+        static let inset: CGFloat = 12
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
-        configureLayout()
+        configureCollectionView()
     }
 
-    private func setupCollectionView() {
+    private func configureCollectionView() {
         let nib = UINib(nibName: "CollectionViewXibCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "CollectionViewXibCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-    }
-
-    private func configureLayout() {
-        let layout = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout) ?? UICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = spacing
-        layout.minimumLineSpacing = spacing
-        layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        layout.minimumInteritemSpacing = Layout.spacing
+        layout.minimumLineSpacing = Layout.spacing
+        layout.sectionInset = UIEdgeInsets(top: Layout.inset, left: Layout.inset, bottom: Layout.inset, right: Layout.inset)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
 }
@@ -49,9 +47,20 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let totalSpacing = (itemsPerRow - 1) * spacing + (inset * 2)
+        let totalSpacing = (Layout.itemsPerRow - 1) * Layout.spacing + (Layout.inset * 2)
         let availableWidth = collectionView.bounds.width - totalSpacing
-        let itemWidth = floor(availableWidth / itemsPerRow)
+        let itemWidth = floor(availableWidth / Layout.itemsPerRow)
         return CGSize(width: itemWidth, height: itemWidth * 1.5)
+    }
+
+    // 클릭
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
+
+        if let nav = navigationController {
+            nav.pushViewController(detailVC, animated: true)
+        } else {
+            present(detailVC, animated: true)
+        }
     }
 }

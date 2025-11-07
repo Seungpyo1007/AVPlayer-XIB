@@ -10,6 +10,7 @@
 		3587A53C2EBB410200AEBD34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3587A5322EBB410200AEBD34 /* AppDelegate.swift */; };
 		3587A53F2EBB410200AEBD34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5332EBB410200AEBD34 /* Assets.xcassets */; };
 		3587A5412EBB410200AEBD34 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5362EBB410200AEBD34 /* LaunchScreen.storyboard */; };
+		35F6ED272EBDE3D900A2E651 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6ED262EBDE3D900A2E651 /* ImageLoader.swift */; };
 		35F9E0C32EBC901A00636DE6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F9E0C22EBC901A00636DE6 /* NetworkManager.swift */; };
 		35F9E0C62EBC93A200636DE6 /* YouTubeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 35F9E0C52EBC93A200636DE6 /* YouTubeKit */; };
 		35F9E0C82EBC990000636DE6 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F9E0C72EBC990000636DE6 /* MovieModel.swift */; };
@@ -21,6 +22,7 @@
 		3587A5332EBB410200AEBD34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3587A5342EBB410200AEBD34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3587A5352EBB410200AEBD34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		35F6ED262EBDE3D900A2E651 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		35F9E0C22EBC901A00636DE6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		35F9E0C72EBC990000636DE6 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +73,7 @@
 				3587A55D2EBB475700AEBD34 /* VIewControllers */,
 				35F9E0C22EBC901A00636DE6 /* NetworkManager.swift */,
 				35F9E0C72EBC990000636DE6 /* MovieModel.swift */,
+				35F6ED262EBDE3D900A2E651 /* ImageLoader.swift */,
 			);
 			path = "AVPlayer-XIB";
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35F6ED272EBDE3D900A2E651 /* ImageLoader.swift in Sources */,
 				35F9E0C32EBC901A00636DE6 /* NetworkManager.swift in Sources */,
 				3587A53C2EBB410200AEBD34 /* AppDelegate.swift in Sources */,
 				35F9E0C82EBC990000636DE6 /* MovieModel.swift in Sources */,
