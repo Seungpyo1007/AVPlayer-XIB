@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieDetailViewController" customModule="AVPlayer_XIB" customModuleProvider="target">
             <connections>
+                <outlet property="overviewLabel" destination="Kec-Fz-0Qd" id="ttc-Go-Lm4"/>
+                <outlet property="trailerButton" destination="iDo-7b-JpA" id="hAV-JE-SFZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,7 +38,7 @@
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="Button"/>
                     <connections>
-                        <action selector="imageButton:" destination="-1" eventType="touchUpInside" id="HA3-ZZ-Dj7"/>
+                        <action selector="trailerButton:" destination="-1" eventType="touchUpInside" id="aN2-YI-d71"/>
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-Fz-0Qd">

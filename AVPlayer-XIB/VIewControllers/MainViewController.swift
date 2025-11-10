@@ -12,6 +12,9 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
 
+    private var movies: [Movie] = []
+    private let networkManager = NetworkManager()
+
     private enum Layout {
         static let itemsPerRow: CGFloat = 2
         static let spacing: CGFloat = 12
@@ -21,6 +24,8 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        searchBar.delegate = self
+        loadPopularMovies()
     }
 
     private func configureCollectionView() {
@@ -35,15 +40,52 @@ final class MainViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: Layout.inset, left: Layout.inset, bottom: Layout.inset, right: Layout.inset)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
+
+    private func loadPopularMovies(page: Int = 1) {
+        networkManager.fetchPopularMovies(page: page) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.movies = response.results
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    self?.showAlert(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    private func searchMovies(query: String, page: Int = 1) {
+        networkManager.searchMovies(query: query, page: page) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.movies = response.results
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    self?.showAlert(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 10 }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movies.count
+    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewXibCell", for: indexPath) as! CollectionViewXibCell
-        cell.contentView.backgroundColor = indexPath.item % 2 == 0 ? .systemBlue : .systemGreen
-        return cell
+        let xibCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewXibCell", for: indexPath) as! CollectionViewXibCell
+        let movie = movies[indexPath.item]
+        xibCell.configure(with: movie)
+        return xibCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -57,10 +99,32 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
 
+        if indexPath.item < movies.count {
+            detailVC.movie = movies[indexPath.item]
+        }
+
         if let nav = navigationController {
             nav.pushViewController(detailVC, animated: true)
         } else {
             present(detailVC, animated: true)
         }
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        let text = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if text.isEmpty {
+            loadPopularMovies()
+        } else {
+            searchMovies(query: text)
+        }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+        loadPopularMovies()
     }
 }

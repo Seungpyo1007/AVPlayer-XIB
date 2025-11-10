@@ -30,6 +30,9 @@
                 <constraint firstAttribute="bottom" secondItem="dkx-HR-MCo" secondAttribute="bottom" id="q9V-kM-Wgq"/>
             </constraints>
             <size key="customSize" width="77" height="54"/>
+            <connections>
+                <outlet property="posterImageView" destination="dkx-HR-MCo" id="BMY-Su-FnP"/>
+            </connections>
             <point key="canvasLocation" x="-157.25190839694656" y="109.1549295774648"/>
         </collectionViewCell>
     </objects>
