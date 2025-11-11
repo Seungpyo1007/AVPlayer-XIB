@@ -10,13 +10,76 @@ import AVKit
 import YouTubeKit
 
 class MovieDetailViewController: UIViewController {
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var overviewLabel: UITextView!
     @IBOutlet weak var trailerButton: UIButton!
 
     // MARK: - Dependencies
     private let networkManager = NetworkManager()
+    
+    private var posterLoadTask: URLSessionDataTask?
 
-    var movie: Movie?
+    // MARK: - Rating Label
+    private func configureRatingLabel() {
+        guard let ratingLabel = ratingLabel else { return }
+//        ratingLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+//        ratingLabel.textColor = .systemOrange
+        if let voteAverage = movie?.voteAverage {
+            ratingLabel.text = "⭐️ \(String(format: "%.1f", voteAverage)) / 10"
+        } else {
+            ratingLabel.text = ""
+        }
+    }
+
+    private func configureView() {
+        configureRatingLabel()
+        overviewLabel?.text = movie?.overview
+        configurePosterAppearance()
+        loadPosterImage(from: movie?.fullPosterURL)
+    }
+
+    private func configurePosterAppearance() {
+        guard let posterImageView = posterImageView else { return }
+        posterImageView.contentMode = .scaleAspectFill
+        posterImageView.clipsToBounds = true
+        posterImageView.backgroundColor = .systemGray5
+        posterImageView.layer.cornerRadius = 12
+    }
+
+    private func loadPosterImage(from url: URL?) {
+        posterLoadTask?.cancel()
+        posterLoadTask = nil
+
+        guard let url = url else {
+            showPosterPlaceholder()
+            return
+        }
+        posterImageView?.backgroundColor = .clear
+        posterLoadTask = ImageLoader.shared.loadImage(from: url) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let image):
+                    self?.posterImageView?.image = image
+                case .failure:
+                    self?.showPosterPlaceholder()
+                }
+            }
+        }
+    }
+
+    private func showPosterPlaceholder() {
+        posterImageView?.image = nil
+        posterImageView?.backgroundColor = .systemGray4
+    }
+    
+    var movie: Movie? {
+        didSet {
+            if isViewLoaded {
+                configureView()
+            }
+        }
+    }
     
     @IBAction func trailerButton(_ sender: Any) {
         playTrailerFlow()
@@ -107,18 +170,20 @@ class MovieDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Configure overview label appearance and content
         overviewLabel.isEditable = false
         overviewLabel.isSelectable = true
         overviewLabel.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
         overviewLabel.font = .systemFont(ofSize: 15)
         overviewLabel.textColor = .label
         overviewLabel.text = movie?.overview
-
-        // Do any additional setup after loading the view.
+        configureRatingLabel()
+        
+        configurePosterAppearance()
+        loadPosterImage(from: movie?.fullPosterURL)
     }
 
 
@@ -131,5 +196,6 @@ class MovieDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }
