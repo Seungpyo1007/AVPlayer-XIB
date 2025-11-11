@@ -13,6 +13,10 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     private var movies: [Movie] = []
+    private var currentPage = 1
+    private var totalPages = 1
+    private var isLoading = false
+    private var query: String? = nil
     private let networkManager = NetworkManager()
 
     private enum Layout {
@@ -25,7 +29,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         searchBar.delegate = self
-        loadPopularMovies()
+        reloadFromStart()
     }
 
     private func configureCollectionView() {
@@ -41,32 +45,35 @@ final class MainViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
 
-    private func loadPopularMovies(page: Int = 1) {
-        networkManager.fetchPopularMovies(page: page) { [weak self] result in
+    private func load(page: Int, replace: Bool) {
+        guard !isLoading else { return }
+        isLoading = true
+        let completion: (Result<MovieResponse, NetworkManager.NetworkError>) -> Void = { [weak self] result in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.isLoading = false
                 switch result {
                 case .success(let response):
-                    self?.movies = response.results
-                    self?.collectionView.reloadData()
+                    self.currentPage = page
+                    self.totalPages = response.totalPages
+                    if replace { self.movies = response.results } else { self.movies += response.results }
+                    self.collectionView.reloadData()
                 case .failure(let error):
-                    self?.showAlert(message: error.localizedDescription)
+                    self.showAlert(message: String(describing: error))
                 }
             }
+        }
+        if let q = query, !q.isEmpty {
+            networkManager.searchMovies(query: q, page: page, completion: completion)
+        } else {
+            networkManager.fetchPopularMovies(page: page, completion: completion)
         }
     }
 
-    private func searchMovies(query: String, page: Int = 1) {
-        networkManager.searchMovies(query: query, page: page) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self?.movies = response.results
-                    self?.collectionView.reloadData()
-                case .failure(let error):
-                    self?.showAlert(message: error.localizedDescription)
-                }
-            }
-        }
+    private func reloadFromStart() {
+        currentPage = 1
+        totalPages = 1
+        load(page: 1, replace: true)
     }
 
     private func showAlert(message: String) {
@@ -95,6 +102,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: itemWidth, height: itemWidth * 1.5)
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let thresholdIndex = movies.count - 4
+        if indexPath.item == max(thresholdIndex, 0), currentPage < totalPages {
+            load(page: currentPage + 1, replace: false)
+        }
+    }
+
     // 클릭
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
@@ -114,17 +128,15 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        let text = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if text.isEmpty {
-            loadPopularMovies()
-        } else {
-            searchMovies(query: text)
-        }
+        let text = (searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        query = text.isEmpty ? nil : text
+        reloadFromStart()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.resignFirstResponder()
-        loadPopularMovies()
+        query = nil
+        reloadFromStart()
     }
 }
