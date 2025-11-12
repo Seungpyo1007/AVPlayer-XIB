@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		355C84142EC42247002C5944 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 355C840F2EC42235002C5944 /* LocalAuthentication.framework */; };
 		3587A53C2EBB410200AEBD34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3587A5322EBB410200AEBD34 /* AppDelegate.swift */; };
 		3587A53F2EBB410200AEBD34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5332EBB410200AEBD34 /* Assets.xcassets */; };
 		3587A5412EBB410200AEBD34 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5362EBB410200AEBD34 /* LaunchScreen.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		355C840F2EC42235002C5944 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		3587A5022EBB3F5C00AEBD34 /* AVPlayer-XIB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVPlayer-XIB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3587A5322EBB410200AEBD34 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3587A5332EBB410200AEBD34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -40,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355C84142EC42247002C5944 /* LocalAuthentication.framework in Frameworks */,
 				35F9E0C62EBC93A200636DE6 /* YouTubeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,10 +50,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		355C840E2EC42235002C5944 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				355C840F2EC42235002C5944 /* LocalAuthentication.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3587A4F92EBB3F5C00AEBD34 = {
 			isa = PBXGroup;
 			children = (
 				3587A53B2EBB410200AEBD34 /* AVPlayer-XIB */,
+				355C840E2EC42235002C5944 /* Frameworks */,
 				3587A5032EBB3F5C00AEBD34 /* Products */,
 			);
 			sourceTree = "<group>";

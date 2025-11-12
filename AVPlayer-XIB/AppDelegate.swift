@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // A를 rootViewController로 설정
-        let aVC = MainViewController(nibName: "MainViewController", bundle: nil)
+        let aVC = PasscodeLockVIewController(nibName: "PasscodeLockVIewController", bundle: nil)
         // 윈도우 생성
         window = UIWindow(frame: UIScreen.main.bounds)
         // 윈도우 rootViewController 설정
