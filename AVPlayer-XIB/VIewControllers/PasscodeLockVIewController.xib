@@ -11,18 +11,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PasscodeLockVIewController" customModule="AVPlayer_XIB" customModuleProvider="target">
             <connections>
-                <outlet property="eightButton" destination="SsQ-zi-qQ3" id="scA-Zi-ISa"/>
-                <outlet property="elevenButton" destination="8fq-V8-FJZ" id="Itd-F3-v7p"/>
-                <outlet property="fiveButton" destination="Mdk-TI-O1S" id="VJw-ag-q6q"/>
-                <outlet property="fourButton" destination="ohZ-46-TMs" id="4ZD-oD-rHI"/>
-                <outlet property="nineButton" destination="5Es-yI-LCz" id="gZF-Dy-ZTh"/>
-                <outlet property="oneButton" destination="JbU-Ek-ooq" id="11c-sR-ZSi"/>
-                <outlet property="sevenButton" destination="jvQ-tF-AAD" id="Dpc-zg-0jE"/>
-                <outlet property="sixButton" destination="wUs-Zw-wck" id="PEF-i2-Fwr"/>
-                <outlet property="tenButton" destination="pOv-Mi-3MP" id="INm-Cb-99f"/>
-                <outlet property="threeButton" destination="0j1-Oy-Xr7" id="tE4-gE-Rd3"/>
-                <outlet property="twelveButton" destination="rdk-wu-1KK" id="i9D-HZ-nAb"/>
-                <outlet property="twoButton" destination="lbv-PV-m5d" id="das-TU-Kq3"/>
+                <outlet property="eightButton" destination="ohZ-46-TMs" id="b7k-nB-xzS"/>
+                <outlet property="elevenButton" destination="lbv-PV-m5d" id="J6o-0o-Cr4"/>
+                <outlet property="fiveButton" destination="SsQ-zi-qQ3" id="g3s-48-Qsz"/>
+                <outlet property="fourButton" destination="5Es-yI-LCz" id="Eel-vq-xEw"/>
+                <outlet property="nineButton" destination="pOv-Mi-3MP" id="s9X-LK-foz"/>
+                <outlet property="oneButton" destination="0j1-Oy-Xr7" id="npM-2Q-lJr"/>
+                <outlet property="sevenButton" destination="8fq-V8-FJZ" id="CCX-tq-AO1"/>
+                <outlet property="sixButton" destination="rdk-wu-1KK" id="mFk-NE-ZKw"/>
+                <outlet property="tenButton" destination="jvQ-tF-AAD" id="tn0-Qh-042"/>
+                <outlet property="threeButton" destination="Mdk-TI-O1S" id="gcP-bW-OA4"/>
+                <outlet property="twelveButton" destination="JbU-Ek-ooq" id="UXg-1v-HVB"/>
+                <outlet property="twoButton" destination="wUs-Zw-wck" id="XXM-YG-KaH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -43,116 +43,126 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohZ-46-TMs">
-                    <rect key="frame" x="24" y="584" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbU-Ek-ooq">
-                    <rect key="frame" x="24" y="509" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbv-PV-m5d">
-                    <rect key="frame" x="134" y="509" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvQ-tF-AAD">
-                    <rect key="frame" x="24" y="659" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOv-Mi-3MP">
-                    <rect key="frame" x="24" y="734" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fq-V8-FJZ">
-                    <rect key="frame" x="134" y="734" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdk-wu-1KK">
-                    <rect key="frame" x="244" y="734" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SsQ-zi-qQ3">
-                    <rect key="frame" x="134" y="659" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Es-yI-LCz">
-                    <rect key="frame" x="244" y="659" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mdk-TI-O1S">
-                    <rect key="frame" x="134" y="584" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-Zw-wck">
-                    <rect key="frame" x="244" y="584" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0j1-Oy-Xr7">
-                    <rect key="frame" x="244" y="509" width="125" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="NULL">
-                        <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
-                    </buttonConfiguration>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-tI-rR0">
+                    <rect key="frame" x="10" y="536" width="373" height="248"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohZ-46-TMs">
+                            <rect key="frame" x="145" y="120" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbU-Ek-ooq">
+                            <rect key="frame" x="270" y="175" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvQ-tF-AAD">
+                            <rect key="frame" x="20" y="175" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOv-Mi-3MP">
+                            <rect key="frame" x="270" y="120" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fq-V8-FJZ">
+                            <rect key="frame" x="20" y="120" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdk-wu-1KK">
+                            <rect key="frame" x="270" y="60" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SsQ-zi-qQ3">
+                            <rect key="frame" x="145" y="60" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Es-yI-LCz">
+                            <rect key="frame" x="20" y="60" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-Zw-wck">
+                            <rect key="frame" x="145" y="0.0" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0j1-Oy-Xr7">
+                            <rect key="frame" x="20" y="0.0" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mdk-TI-O1S">
+                            <rect key="frame" x="270" y="0.0" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbv-PV-m5d">
+                            <rect key="frame" x="145" y="175" width="125" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="NULL">
+                                <fontDescription key="titleFontDescription" type="boldSystem" pointSize="30"/>
+                            </buttonConfiguration>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Ct6-LC-bvy" secondAttribute="trailing" constant="122" id="1S6-zY-bID"/>
+                <constraint firstItem="0Qf-tI-rR0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="7ky-SW-6cN"/>
                 <constraint firstItem="Ct6-LC-bvy" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="48" id="8oA-GC-Jxd"/>
+                <constraint firstItem="0Qf-tI-rR0" firstAttribute="top" secondItem="Ct6-LC-bvy" secondAttribute="bottom" constant="350" id="JFx-NS-8b0"/>
                 <constraint firstItem="wfQ-Dr-LNY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="154" id="KXb-as-PXG"/>
+                <constraint firstAttribute="trailing" secondItem="0Qf-tI-rR0" secondAttribute="trailing" constant="10" id="QYQ-zv-cnF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wfQ-Dr-LNY" secondAttribute="trailing" constant="147" id="Wpa-SX-kg5"/>
                 <constraint firstItem="Ct6-LC-bvy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="121" id="Zk4-8w-igh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Ct6-LC-bvy" secondAttribute="bottom" constant="598" id="bwm-wM-NRq"/>
+                <constraint firstItem="0Qf-tI-rR0" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" constant="-68" id="dUa-6Z-r49"/>
                 <constraint firstItem="wfQ-Dr-LNY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="mod-TW-lQW"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wfQ-Dr-LNY" secondAttribute="bottom" constant="626" id="o6i-TH-rt5"/>
             </constraints>
-            <point key="canvasLocation" x="-31" y="154"/>
+            <point key="canvasLocation" x="632.82442748091603" y="273.23943661971833"/>
         </view>
     </objects>
     <resources>

@@ -1,50 +1,53 @@
-//
-//  CollectionViewXibCell.swift
-//  AVPlayer-XIB
-//
-//  Created by 홍승표 on 11/6/25.
-//
-
 import UIKit
 
-class CollectionViewXibCell: UICollectionViewCell {
-    @IBOutlet weak var posterImageView: UIImageView!
+final class CollectionViewXibCell: UICollectionViewCell {
+    @IBOutlet private weak var posterImageView: UIImageView!
     
     private var currentTask: URLSessionDataTask?
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        // 기본 이미지 뷰 설정: 잘린 영역은 숨기고, 모서리 둥글게 처리
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.clipsToBounds = true
-        posterImageView.backgroundColor = .systemGray5
         posterImageView.layer.cornerRadius = 12
+        showPlaceholder() /// 초기 상태는 showPlaceholder
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        // 진행 중인 이미지 로딩 작업 취소 및 초기화
         currentTask?.cancel()
         currentTask = nil
-        posterImageView.image = nil
-        posterImageView.backgroundColor = .systemGray4
+        showPlaceholder()
     }
 
     func configure(with movie: Movie) {
-        loadPosterImage(from: movie.fullPosterURL)
+        loadPosterImage(from: movie.fullPosterURL) // MovieModel에서 이미지 가져오기
     }
 
+    // 주어진 URL로부터 포스터 이미지를 비동기 로딩
     private func loadPosterImage(from url: URL?) {
-        guard let url = url else {
+        if let url {
+            /// 배경을 투명하게 하여 둥근 모서리가 깔끔하게 보이게 처리
+            posterImageView.backgroundColor = .clear
+            /// 중복 요청을 막기 위해 기존 작업은 취소
+            currentTask?.cancel()
+            /// 이미지 로더를 통해 비동기 다운로드 요청 시작
+            currentTask = ImageLoader.shared.loadImage(from: url) { [weak self] result in
+                /// UI 업데이트를 위해 메인 스레드로 전환
+                DispatchQueue.main.async {
+                    /// 다운로드 결과를 처리하는 함수 호출
+                    self?.handleImageLoadResult(result)
+                }
+            }
+        } else {
             showPlaceholder()
             return
         }
-        posterImageView.backgroundColor = .clear
-        currentTask = ImageLoader.shared.loadImage(from: url) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.handleImageLoadResult(result)
-            }
-        }
     }
 
+    // 이미지 로딩 결과를 처리합니다.
     private func handleImageLoadResult(_ result: Result<UIImage, Error>) {
         switch result {
         case .success(let image):
@@ -54,8 +57,9 @@ class CollectionViewXibCell: UICollectionViewCell {
         }
     }
 
+    // 상태를 표시
     private func showPlaceholder() {
         posterImageView.image = nil
-        posterImageView.backgroundColor = .systemGray4
+        posterImageView.backgroundColor = .systemGray /// 없으면 회색으로 표시
     }
 }

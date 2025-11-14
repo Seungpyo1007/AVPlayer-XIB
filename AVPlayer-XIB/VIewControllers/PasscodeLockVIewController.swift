@@ -8,7 +8,11 @@
 import UIKit
 import LocalAuthentication
 
+/// 간단한 비밀번호(패스코드) + Face ID 잠금 화면 컨트롤러
+/// - 숫자 키패드는 매 진입/실패 시 랜덤 배치
+/// - Face ID 지원 기기에서는 자동으로 인증 시도 및 키패드에 Face ID 버튼 노출
 class PasscodeLockVIewController: UIViewController {
+    // MARK: - Outlets
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var twoButton: UIButton!
     @IBOutlet weak var threeButton: UIButton!
@@ -20,54 +24,76 @@ class PasscodeLockVIewController: UIViewController {
     @IBOutlet weak var nineButton: UIButton!
     @IBOutlet weak var tenButton: UIButton!
     @IBOutlet weak var elevenButton: UIButton!
-    @IBOutlet weak var twelveButton: UIButton!
-    
+    @IBOutlet weak var twelveButton: UIButton! // 삭제(백스페이스) 버튼
+
+    // MARK: - 속성
+    /// 정답 패스코드 (예: 100712)
     private let passcode: [String] = ["1","0","0","7","1","2"]
+    /// 사용자가 입력한 숫자 기록
     private var entered: [String] = []
-    private var digitButtons: [UIButton] { [oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton, tenButton, elevenButton].compactMap { $0 } }
-    // twelveButton is delete
-    
+
+    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외)
+    private var digitButtons: [UIButton] {
+        [oneButton, twoButton, threeButton,
+         fourButton, fiveButton, sixButton,
+         sevenButton, eightButton, nineButton,
+         tenButton, elevenButton].compactMap { $0 }
+    }
+
+    /// Face ID 사용 가능 여부
     private var isFaceIDAvailable: Bool {
         let context = LAContext()
         var error: NSError?
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) == false {
+        // 생체인증 사용 가능 여부 확인
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
             return false
         }
         return context.biometryType == .faceID
     }
-    
+
+    // MARK: - 생명주기 (앱의 실행)
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureButtons()
-        randomizeKeypad()
-        attemptFaceIDIfAvailable()
+        configureButtons()      // 버튼 타깃/라벨 설정
+        randomizeKeypad()       // 키패드 랜덤 배치
+        attemptFaceIDIfAvailable() // Face ID 자동 인증 시도
     }
-    
+
+    // MARK: - UI 구성
+    /// 키패드/삭제 버튼 타깃 및 접근성 라벨 설정
     private func configureButtons() {
-        // Assign targets for digit buttons
-        for button in digitButtons {
-            button.addTarget(self, action: #selector(didTapDigitButton(_:)), for: .touchUpInside)
-        }
-        // Delete button
+        // 숫자 버튼: 공통 타깃 연결
+        digitButtons.forEach {
+            $0.addTarget(self, action: #selector(didTapDigitButton(_:)),
+                         for: .touchUpInside) }
+
+        // 삭제(백스페이스) 버튼 설정
         twelveButton.setTitle("⌫", for: .normal)
         twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
         twelveButton.accessibilityLabel = "Delete"
     }
 
+    /// 키패드 숫자/Face ID 버튼을 랜덤 배치
     private func randomizeKeypad() {
-        var items: [String] = Array(0...9).map { String($0) }
-        if isFaceIDAvailable {
-            items.append("FaceID")
-        }
+        // 기본 숫자 0~9
+        var items: [String] = (0...9).map { String($0) }
+        // Face ID 지원 시 FaceID 항목 추가
+        if isFaceIDAvailable { items.append("FaceID") }
+
+        // 버튼 개수(11개)에 맞춰 셔플/자르기/채우기
         var pool = items.shuffled()
         if pool.count > 11 {
             pool = Array(pool.prefix(11))
         } else if pool.count < 11 {
-            let extras = Array(0...9).map { String($0) }.shuffled()
+            // 부족하면 숫자로 채움
+            let extras = (0...9).map { String($0) }.shuffled()
             for v in extras where pool.count < 11 { pool.append(v) }
         }
+
+        // 버튼에 값 반영
         for (button, value) in zip(digitButtons, pool) {
             if value == "FaceID" {
+                // Face ID 버튼은 지원 기기에서만 표시/활성화
                 button.setTitle(isFaceIDAvailable ? value : "", for: .normal)
                 button.isHidden = !isFaceIDAvailable
                 button.isEnabled = isFaceIDAvailable
@@ -81,65 +107,68 @@ class PasscodeLockVIewController: UIViewController {
         }
     }
 
+    // MARK: - Actions
+    /// 숫자 또는 Face ID 버튼 탭 처리
     @objc private func didTapDigitButton(_ sender: UIButton) {
         guard sender.isEnabled, !sender.isHidden, let value = sender.currentTitle else { return }
+
+        // Face ID 버튼이라면 생체 인증 실행
         if value == "FaceID" {
             authenticateWithFaceID()
             return
         }
-        // Append digit
+        // 숫자 입력 누적
         entered.append(value)
         checkProgress()
     }
 
+    /// 마지막 입력 숫자 삭제
     @objc private func didTapDelete() {
-        if !entered.isEmpty { _ = entered.popLast() }
+        _ = entered.popLast()
     }
 
+    // MARK: - 검증 테스트
+    /// 입력 진행 상황 확인 및 성공/실패 처리
     private func checkProgress() {
-        // Trim to max passcode length
+        // 최대 길이 초과 시 잘라내기
         if entered.count > passcode.count {
             entered = Array(entered.prefix(passcode.count))
         }
-        // If full length, validate
-        if entered.count == passcode.count {
-            if entered == passcode {
-                passcodeSucceeded()
-            } else {
-                passcodeFailed()
-            }
-        }
+        // 길이가 맞으면 검증
+        guard entered.count == passcode.count else { return }
+        (entered == passcode) ? passcodeSucceeded() : passcodeFailed()
     }
 
+    /// 인증 성공: 메인 화면으로 전환
     private func passcodeSucceeded() {
-        // Instantiate MainViewController from XIB (not storyboard)
         let mainVC = MainViewController(nibName: "MainViewController", bundle: nil)
         if let nav = self.navigationController {
             nav.setViewControllers([mainVC], animated: true)
         } else {
             mainVC.modalPresentationStyle = .fullScreen
-            self.present(mainVC, animated: true)
+            present(mainVC, animated: true)
         }
     }
 
+    /// 인증 실패: 흔들림 애니메이션 + 입력 초기화 + 키패드 재배치
     private func passcodeFailed() {
-        // Shake animation feedback
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
         animation.duration = 0.4
         animation.values = [-10, 10, -8, 8, -5, 5, 0]
         view.layer.add(animation, forKey: "shake")
-        // Reset input and randomize again
+
         entered.removeAll()
         randomizeKeypad()
     }
 
+    // MARK: - Face ID 인증
+    /// Face ID 지원 시 자동으로 인증 시도
     private func attemptFaceIDIfAvailable() {
-        if isFaceIDAvailable {
-            authenticateWithFaceID()
-        }
+        if isFaceIDAvailable { authenticateWithFaceID() }
     }
 
+    /// Face ID 인증 실행
     private func authenticateWithFaceID() {
         let context = LAContext()
         context.localizedReason = "Unlock with Face ID"
@@ -148,10 +177,9 @@ class PasscodeLockVIewController: UIViewController {
                 if success {
                     self?.passcodeSucceeded()
                 } else {
-                    // If Face ID fails, keep UI as-is
+                    // 실패 시 UI 유지(사용자가 숫자로 입력 가능)
                 }
             }
         }
     }
 }
-
