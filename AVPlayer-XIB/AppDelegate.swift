@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 윈도우 생성
         window = UIWindow(frame: UIScreen.main.bounds)
         // 윈도우 rootViewController 설정
-        window?.rootViewController = aVC
+        window?.rootViewController = aVC         
         // 윈도우 표시
         window?.makeKeyAndVisible()
         return true

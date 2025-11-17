@@ -50,16 +50,6 @@ class ImageLoader {
         return task /// 작업 반환
     }
     
-    /// 특정 URL의 이미지 다운로드 취소 로직
-    func cancelLoading(for url: URL) {
-        let urlString = url.absoluteString
-        
-        if let task = runningRequests[urlString] {
-            task.cancel()
-            runningRequests.removeValue(forKey: urlString)
-        }
-    }
-    
     // MARK: - 비공개 메서드 (내부 처리)
     
     /// 이미지 다운로드 작업 생성

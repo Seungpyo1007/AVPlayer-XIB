@@ -38,7 +38,7 @@ final class MainViewController: UIViewController {
         configureCollectionView()
         // 검색 이벤트를 받기 위해 지정
         searchBar.delegate = self
-        // 초기화
+        // 데이터 초기 상태
         reloadFromStart()
     }
 
@@ -157,7 +157,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         detailVC.movie = movies[indexPath.item]
 
         if let nav = navigationController {
-            /// 내비게이션 스택이 있을 경우: Push 방식으로 가로방향으로 상세 화면 전환 (계층적 이동)
+            /// 내비게이션 스택이 있을 경우: Push 방식으로 가로방향으로 상세 화면 전환 (계층적 이동) (거의 작동 안함)
             nav.pushViewController(detailVC, animated: true)
         } else {
             /// 내비게이션 스택이 없을 경우: Present 방식으로 상세 화면 전환
@@ -176,7 +176,7 @@ extension MainViewController: UISearchBarDelegate {
         /// 공백 제거 후 검색어 설정 및 재로딩
         let text = (searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         query = text.isEmpty ? nil : text
-        reloadFromStart() /// 초기화하고 다시 로드
+        reloadFromStart() /// 데이터 초기 상태
     }
     // 취소 버튼
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -185,7 +185,7 @@ extension MainViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         /// 검색어 초기화 후 재로딩
         query = nil
-        reloadFromStart() /// 초기화하고 다시 로드
+        reloadFromStart() /// 데이터 초기 상태
     }
 }
 

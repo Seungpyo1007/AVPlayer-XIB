@@ -54,12 +54,13 @@ class NetworkManager {
                            completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
         let urlString = "\(API.baseURL)/movie/popular?page=\(page)&language=\(API.language)"
         
+        /// 유효성 검사
         guard let request = createRequest(for: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
         
-        performRequest(request, completion: completion)
+        performRequest(request, completion: completion) /// 성공 실패 확인
     }
 
     /// 영화 검색
@@ -77,12 +78,13 @@ class NetworkManager {
         
         let urlString = "\(API.baseURL)/search/movie?query=\(encodedQuery)&page=\(page)&language=\(API.language)"
         
+        /// 유효성 검사
         guard let request = createRequest(for: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
         
-        performRequest(request, completion: completion)
+        performRequest(request, completion: completion) /// 성공 실패 확인
     }
     
     /// 영화 예고편 가져오기
@@ -93,12 +95,13 @@ class NetworkManager {
                           completion: @escaping (Result<Trailer, NetworkError>) -> Void) {
         let urlString = "\(API.baseURL)/movie/\(movieID)/videos?language=\(API.language)"
         
+        /// 유효성 검사
         guard let request = createRequest(for: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
         
-        performTrailerRequest(request, completion: completion)
+        performTrailerRequest(request, completion: completion) /// 성공 실패 확인
     }
     
     // MARK: - 비공개 메서드 (내부 처리)

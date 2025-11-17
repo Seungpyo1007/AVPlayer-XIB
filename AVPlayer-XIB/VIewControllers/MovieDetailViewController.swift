@@ -19,7 +19,7 @@ class MovieDetailViewController: UIViewController {
     // MARK: - 상태 및 의존성
     private let networkManager = NetworkManager()
     
-    // 포스터 이미지 로딩 작업을 취소, 관리하기 위한 태스크 참조
+    // 데이터를 요청하고 받아올때 사용
     private var posterLoadTask: URLSessionDataTask?
 
     // MARK: - UI 설정
@@ -37,16 +37,16 @@ class MovieDetailViewController: UIViewController {
     private func configureView() {
         configureRatingLabel() // 평점 라벨 갱신
         overviewLabel?.text = movie?.overview // 줄거리 텍스트 설정
-        configurePosterAppearance() // 포스터 뷰 코너, 배경 등 설정
-        loadPosterImage(from: movie?.fullPosterURL) // 포스터 이미지 비동기 로드
+        configurePosterAppearance() // 포스터 뷰 설정
+        loadPosterImage(from: movie?.fullPosterURL)
     }
 
     // 포스터 이미지뷰의 모습을 설정
     private func configurePosterAppearance() {
         posterImageView.contentMode = .scaleAspectFill // 이미지 비율 유지하면서 채우기
         posterImageView.clipsToBounds = true // 둥근 모서리 밖으로 나가는 부분 잘라내기
-        posterImageView.backgroundColor = .systemGray // 로딩 전 기본 배경색
-        posterImageView.layer.cornerRadius = 12 // 모서리를 둥글게
+        posterImageView.backgroundColor = .systemGray
+        posterImageView.layer.cornerRadius = 12 // 모서리 둥글게
     }
 
     // 포스터 이미지 로드
@@ -161,9 +161,9 @@ class MovieDetailViewController: UIViewController {
             do {
                 /// YouTubeKit으로 비디오 객체 생성
                 let video = YouTube(url: youtubeURL)
-                /// 사용 가능한 스트림 목록을 가져오기
+                /// 사용 가능한 스트림 목록을 가져옴
                 let streams = try await video.streams
-                /// iOS에서 네이티브로 재생 가능한 최고 해상도 스트림
+                /// 네이티브로 재생 가능한 최고 해상도 스트림
                 if let stream = streams.filterVideoAndAudio().filter({ $0.isNativelyPlayable }).highestResolutionStream() {
                     completion(.success(stream.url))
                     return
@@ -181,7 +181,7 @@ class MovieDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    // 뷰 로드 시 초기 UI 설정 및 데이터 바인딩을 수행
+    // 초기 UI 설정 및 데이터 바인딩 (데이터와 UI 자동 연결)
     override func viewDidLoad() {
         super.viewDidLoad()
         overviewLabel.isEditable = false // 사용자가 편집하지 못하도록 X
