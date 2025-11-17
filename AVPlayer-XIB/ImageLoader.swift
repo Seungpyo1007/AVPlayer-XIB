@@ -7,35 +7,27 @@
 
 import UIKit
 
-/// 이미지 다운로드 및 캐싱을 담당하는 싱글톤 클래스
+/// 이미지 다운로드 및 캐싱을 담당하는 클래스
 class ImageLoader {
     
-    // MARK: - 싱글톤
-    
+    // MARK: - 상수, 변수 선언
     static let shared = ImageLoader()
-    
-    // MARK: - 프로퍼티
-    
     /// 다운로드한 이미지를 메모리에 캐싱
     private let imageCache = NSCache<NSString, UIImage>()
-    
     /// 진행 중인 다운로드 작업 추적 (중복 요청 방지)
     private var runningRequests: [String: URLSessionDataTask] = [:]
     
-    // MARK: - 초기화
+    private init() {} // 초기화
     
-    private init() {}
-    
-    // MARK: - 공개 메서드
+    // MARK: - 공개 메서드 (외부에서 호출)
     
     /// URL에서 이미지를 로드 (캐시 우선, 없으면 다운로드)
     /// - Parameters:
     ///   - url: 이미지 URL
-    ///   - completion: 완료 핸들러 (Result<UIImage, Error>)
-    /// - Returns: URLSessionDataTask (취소 가능)
+    ///   - completion: 결과 처리
     @discardableResult
     func loadImage(from url: URL,
-                   completion: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask? {
+                   completion: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask? { /// 서버로부터 응답 데이터를 받아서 Data 객체를 가져오는 작업을 수행
         
         let urlString = url.absoluteString
         
@@ -50,16 +42,15 @@ class ImageLoader {
             return existingTask
         }
         
-        // 3. 새로운 다운로드 요청 생성
+        // 3. 새로운 다운로드 작업(요청) 생성
         let task = createDownloadTask(for: url, urlString: urlString, completion: completion)
-        task.resume()
+        task.resume() /// 작업 실행
         
         runningRequests[urlString] = task
-        return task
+        return task /// 작업 반환
     }
     
-    /// 특정 URL의 이미지 다운로드 취소
-    /// - Parameter url: 취소할 이미지 URL
+    /// 특정 URL의 이미지 다운로드 취소 로직
     func cancelLoading(for url: URL) {
         let urlString = url.absoluteString
         
@@ -69,7 +60,7 @@ class ImageLoader {
         }
     }
     
-    // MARK: - 비공개 메서드
+    // MARK: - 비공개 메서드 (내부 처리)
     
     /// 이미지 다운로드 작업 생성
     private func createDownloadTask(for url: URL,
@@ -84,7 +75,6 @@ class ImageLoader {
             // 작업 완료 시 목록에서 제거
             defer { self?.runningRequests.removeValue(forKey: urlString) }
             
-            // 에러 처리
             if let error = error {
                 // 사용자가 취소한 경우는 completion 호출 안 함
                 if (error as NSError).code != NSURLErrorCancelled {

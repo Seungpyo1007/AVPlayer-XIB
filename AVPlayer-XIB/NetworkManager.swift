@@ -10,7 +10,7 @@ import Foundation
 /// TMDB API 통신을 담당하는 네트워크 매니저
 class NetworkManager {
     
-    // MARK: - 상수
+    // MARK: - 상수 선언
     
     private enum API {
         static let baseURL = "https://api.themoviedb.org/3"
@@ -19,7 +19,7 @@ class NetworkManager {
         static let timeout: TimeInterval = 10
     }
      
-    // MARK: - 네트워크 에러
+    // MARK: - 네트워크 에러 로직
     
     enum NetworkError: Error {
         case invalidURL
@@ -44,12 +44,12 @@ class NetworkManager {
         }
     }
     
-    // MARK: - 공개 메서드
+    // MARK: - 공개 메서드 (외부에서 호출)
     
     /// 인기 영화 목록 가져오기
     /// - Parameters:
     ///   - page: 페이지 번호
-    ///   - completion: 결과 핸들러
+    ///   - completion: 결과 처리
     func fetchPopularMovies(page: Int,
                            completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
         let urlString = "\(API.baseURL)/movie/popular?page=\(page)&language=\(API.language)"
@@ -66,7 +66,7 @@ class NetworkManager {
     /// - Parameters:
     ///   - query: 검색어
     ///   - page: 페이지 번호
-    ///   - completion: 결과 핸들러
+    ///   - completion: 결과 처리
     func searchMovies(query: String,
                      page: Int,
                      completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
@@ -88,7 +88,7 @@ class NetworkManager {
     /// 영화 예고편 가져오기
     /// - Parameters:
     ///   - movieID: 영화 ID
-    ///   - completion: 결과 핸들러
+    ///   - completion: 결과 처리
     func fetchMovieTrailer(movieID: Int,
                           completion: @escaping (Result<Trailer, NetworkError>) -> Void) {
         let urlString = "\(API.baseURL)/movie/\(movieID)/videos?language=\(API.language)"
@@ -101,7 +101,7 @@ class NetworkManager {
         performTrailerRequest(request, completion: completion)
     }
     
-    // MARK: - 비공개 메서드
+    // MARK: - 비공개 메서드 (내부 처리)
     
     /// URLRequest 생성 (Bearer Token 포함)
     private func createRequest(for urlString: String) -> URLRequest? {
@@ -118,11 +118,10 @@ class NetworkManager {
         return request
     }
     
-    /// 영화 목록 API 요청 실행
+    // 영화 목록 API 요청 실행
     private func performRequest(_ request: URLRequest,
                                completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // 에러 처리
             if let error = error {
                 if (error as NSError).code != NSURLErrorCancelled {
                     completion(.failure(.apiError(error.localizedDescription)))
@@ -130,17 +129,19 @@ class NetworkManager {
                 return
             }
             
-            // 응답 검증
+            // 응답 검증 1 (HTTP 응답 타입 검증)
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(.failure(.noData))
                 return
             }
             
+            // 응답 검증 2 (HTTP 응답 코드 검증)
             guard (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(.httpError(httpResponse.statusCode)))
                 return
             }
             
+            // 응답 검증 3 (데이터 존재 여부 검증)
             guard let data = data else {
                 completion(.failure(.noData))
                 return
@@ -155,14 +156,13 @@ class NetworkManager {
             }
         }
         
-        task.resume()
+        task.resume() // 데이터 전송 시작
     }
     
     /// 예고편 API 요청 실행
     private func performTrailerRequest(_ request: URLRequest,
                                       completion: @escaping (Result<Trailer, NetworkError>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // 에러 처리
             if let error = error {
                 if (error as NSError).code != NSURLErrorCancelled {
                     completion(.failure(.apiError(error.localizedDescription)))
@@ -170,12 +170,21 @@ class NetworkManager {
                 return
             }
             
-            // 응답 검증
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode),
-                  let data = data else {
-                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
-                completion(.failure(.httpError(statusCode)))
+            // 응답 검증 1 (HTTP 응답 타입 검증)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.noData))
+                return
+            }
+            
+            // 응답 검증 2 (HTTP 응답 코드 검증)
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(.httpError(httpResponse.statusCode)))
+                return
+            }
+            
+            // 응답 검증 3 (데이터 존재 여부 검증)
+            guard let data = data else {
+                completion(.failure(.noData))
                 return
             }
             
@@ -193,7 +202,7 @@ class NetworkManager {
             }
         }
         
-        task.resume()
+        task.resume() // 데이터 전송 시작
     }
     
     /// YouTube Trailer 또는 Teaser 찾기

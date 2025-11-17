@@ -14,8 +14,8 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     // MARK: - 상태 및 의존성
-    private var movies: [Movie] = [] // 영화 데이터 배열
-    private var currentPage = 1 // 현재 페이지
+    private var movies: [Movie] = []
+    private var currentPage = 1
     private var totalPages = 1 // 전체 페이지 수 (서버 응답 기반)
     private var isLoading = false // 네트워크 중복 요청 방지
     private var query: String? = nil // 검색어 (nil이면 인기 영화 목록 요청)
@@ -42,20 +42,20 @@ final class MainViewController: UIViewController {
         reloadFromStart()
     }
 
-    // 컬렉션 뷰 설정: 셀 등록, 델리게이트 연결, 레이아웃 구성.
+    // 컬렉션 뷰 설정: 셀 등록, 델리게이트, 데이터소스 연결, 레이아웃 구성.
     private func configureCollectionView() {
         let nib = UINib(nibName: "CollectionViewXibCell", bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: "CollectionViewXibCell") /// 셀 등록
+        collectionView.register(nib, forCellWithReuseIdentifier: "CollectionViewXibCell")
         collectionView.delegate = self
         collectionView.dataSource = self
 
         // 구성을 위한 플로우 레이아웃
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical /// 세로 스크롤
+        layout.scrollDirection = .vertical /// 수직(세로) 스크롤
         layout.minimumInteritemSpacing = Layout.spacing /// 아이템 간 최소 가로 간격
         layout.minimumLineSpacing = Layout.spacing ///  아이템 간 최소 세로 간격
-        layout.sectionInset = UIEdgeInsets(top: Layout.inset, left: Layout.inset, bottom: Layout.inset, right: Layout.inset) /// 섹션 여백
-        collectionView.collectionViewLayout = layout /// 레이아웃 적용
+        layout.sectionInset = UIEdgeInsets(top: Layout.inset, left: Layout.inset, bottom: Layout.inset, right: Layout.inset) /// 전체 섹션 여백 (상, 하, 좌, 우)
+        collectionView.collectionViewLayout = layout /// 최종적 레이아웃 적용
     }
 
     // 지정한 페이지의 영화를 로드합니다.
@@ -66,7 +66,7 @@ final class MainViewController: UIViewController {
 
         // NetworkManager 처리 함수
         let completion: (Result<MovieResponse, NetworkManager.NetworkError>) -> Void = { [weak self] result in
-            /// 메인스레드 전환 & 메모리 안정성 확보 및 로딩 상태 해제
+            /// 메인스레드 전환 (디스패치 큐) & 메모리 안정성 확보 (누수 방지) 및 로딩 상태 해제
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.isLoading = false
@@ -104,7 +104,7 @@ final class MainViewController: UIViewController {
         load(page: 1, replace: true)
     }
 
-    // 네트워크 오류가 발생했을때 간단한 알림을 표시합니다.
+    // 네트워크 오류가 발생했을때 간단한 알림을 표시
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
@@ -135,7 +135,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let totalSpacing = (Layout.itemsPerRow - 1) * Layout.spacing + (Layout.inset * 2)
         /// 한 줄의 모든 간격(아이템 간 간격 + 섹션 인셋)의 총합을 계산
         let availableWidth = collectionView.bounds.width - totalSpacing
-        /// 전체 컬렉션 뷰 너비에서 총 여백을 제외하고 순수하게 아이템에 할당할 수 있는 너비를 계산
+        /// 전체 컬렉션 뷰 너비에서 총 여백을 제외하고 아이템에 할당할 수 있는 너비를 계산
         let itemWidth = floor(availableWidth / Layout.itemsPerRow)
         /// 사용 가능한 너비를 아이템 개수로 나누고, 소수점 이하를 버려 개별 아이템의 너비를 확정
         return CGSize(width: itemWidth, height: itemWidth * 1.5)
@@ -152,13 +152,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 
-    // 아이템 선택
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 포스터를 누르면 MovieDetailViewCOntroller를 켜지게 만드는 로직
         let detailVC = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
         detailVC.movie = movies[indexPath.item]
 
-        // 이동을 위한 navigationController
         if let nav = navigationController {
             /// 내비게이션 스택이 있을 경우: Push 방식으로 가로방향으로 상세 화면 전환 (계층적 이동)
             nav.pushViewController(detailVC, animated: true)

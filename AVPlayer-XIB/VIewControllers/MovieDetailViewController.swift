@@ -16,14 +16,13 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UITextView!
     @IBOutlet weak var trailerButton: UIButton!
 
-    // MARK: - 속성
+    // MARK: - 상태 및 의존성
     private let networkManager = NetworkManager()
     
     // 포스터 이미지 로딩 작업을 취소, 관리하기 위한 태스크 참조
     private var posterLoadTask: URLSessionDataTask?
 
     // MARK: - UI 설정
-    // 평점 라벨을 구성
     private func configureRatingLabel() {
 //        ratingLabel.font = .systemFont(ofSize: 18, weight: .semibold)
 //        ratingLabel.textColor = .systemOrange
@@ -194,18 +193,5 @@ class MovieDetailViewController: UIViewController {
         configurePosterAppearance() // 포스터 모습 설정
         loadPosterImage(from: movie?.fullPosterURL) // 포스터 이미지 로드
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-
 }
 

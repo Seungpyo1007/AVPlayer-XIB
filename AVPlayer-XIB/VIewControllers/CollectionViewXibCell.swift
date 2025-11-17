@@ -1,9 +1,11 @@
 import UIKit
 
 final class CollectionViewXibCell: UICollectionViewCell {
+    
     @IBOutlet private weak var posterImageView: UIImageView!
     
-    private var currentTask: URLSessionDataTask?
+    // MARK: - 상태 및 의존성
+    private var currentTask: URLSessionDataTask? /// 웹 서버 데이터를 요청하고 받아올때 사용
     
     override func awakeFromNib() {
         super.awakeFromNib()
