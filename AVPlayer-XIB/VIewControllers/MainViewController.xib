@@ -22,14 +22,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="zjL-5v-V0M">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="152"/>
+                    <rect key="frame" x="0.0" y="106" width="393" height="64"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="st3-0c-ch2"/>
                     </connections>
                 </searchBar>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4k4-Lk-4U7">
-                    <rect key="frame" x="20" y="150" width="350" height="650"/>
+                    <rect key="frame" x="20" y="200" width="353" height="630"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dZo-o2-x2P">
                         <size key="itemSize" width="100" height="200"/>
@@ -42,14 +42,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="4k4-Lk-4U7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="2GZ-EV-Hw7"/>
-                <constraint firstItem="zjL-5v-V0M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5pQ-xq-c3c"/>
-                <constraint firstItem="4k4-Lk-4U7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="150" id="98M-eB-bJP"/>
-                <constraint firstAttribute="bottom" secondItem="zjL-5v-V0M" secondAttribute="bottom" constant="700" id="FDf-sc-hMr"/>
-                <constraint firstAttribute="trailing" secondItem="zjL-5v-V0M" secondAttribute="trailing" id="Nhb-W8-FJk"/>
-                <constraint firstItem="zjL-5v-V0M" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="U0w-OU-iZU"/>
-                <constraint firstAttribute="bottom" secondItem="4k4-Lk-4U7" secondAttribute="bottom" constant="52" id="fag-aV-Nas"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4k4-Lk-4U7" secondAttribute="trailing" constant="23" id="lLe-hq-d5o"/>
+                <constraint firstItem="4k4-Lk-4U7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="46" id="6Pq-ne-eDo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4k4-Lk-4U7" secondAttribute="trailing" constant="20" id="N0s-20-VAg"/>
+                <constraint firstItem="zjL-5v-V0M" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Wiu-g9-1zm"/>
+                <constraint firstItem="4k4-Lk-4U7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="82" id="bZR-a1-Cpq"/>
+                <constraint firstItem="4k4-Lk-4U7" firstAttribute="top" secondItem="zjL-5v-V0M" secondAttribute="bottom" constant="30" id="dMQ-ly-92R"/>
+                <constraint firstAttribute="trailing" secondItem="zjL-5v-V0M" secondAttribute="trailing" id="sZT-Qm-y7q"/>
+                <constraint firstItem="4k4-Lk-4U7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="vsw-ls-0mq"/>
             </constraints>
             <point key="canvasLocation" x="17.557251908396946" y="117.60563380281691"/>
         </view>
