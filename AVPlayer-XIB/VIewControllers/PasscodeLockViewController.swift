@@ -1,5 +1,5 @@
 //
-//  PasscodeLockVIewController.swift
+//  PasscodeLockViewController.swift
 //  AVPlayer-XIB
 //
 //  Created by 홍승표 on 11/11/25.
@@ -8,10 +8,17 @@
 import UIKit
 import LocalAuthentication
 
-/// 간단한 비밀번호(패스코드) + Face ID 잠금 화면 컨트롤러
-class PasscodeLockVIewController: UIViewController {
+// 1. KeyPadView : 내장버전
+// 2. KeyPadView : 스택뷰로 쌓아서 만든 키패드
+// 3. KeyBoardView : 그냥 제약 조건으로 맞춘 키패드
+class PasscodeLockViewController: UIViewController {
     
     // MARK: - Outlets
+    // 임시 키보드 생성 필드
+    @IBOutlet weak var firstTextField: UITextField!
+    @IBOutlet weak var secondTextField: UITextField!
+    
+    // PasscodeLockViewController에 있는 KeyPadView (숨겨진 상태)
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var twoButton: UIButton!
     @IBOutlet weak var threeButton: UIButton!
@@ -23,20 +30,60 @@ class PasscodeLockVIewController: UIViewController {
     @IBOutlet weak var nineButton: UIButton!
     @IBOutlet weak var tenButton: UIButton!
     @IBOutlet weak var elevenButton: UIButton!
-    @IBOutlet weak var twelveButton: UIButton! // 삭제(백스페이스) 버튼
+    @IBOutlet weak var twelveButton: UIButton! /// 삭제(백스페이스) 버튼
+    
+    // MARK: - Test Outlets
+//    @IBOutlet weak var testOneButton: UIButton!
+//    @IBOutlet weak var testTwoButton: UIButton!
+//    @IBOutlet weak var testThreeButton: UIButton!
+//    @IBOutlet weak var testFourButton: UIButton!
+//    @IBOutlet weak var testFiveButton: UIButton!
+//    @IBOutlet weak var testSixButton: UIButton!
+//    @IBOutlet weak var testsevenButton: UIButton!
+//    @IBOutlet weak var testEightButton: UIButton!
+//    @IBOutlet weak var testNineButton: UIButton!
+//    @IBOutlet weak var testTenButton: UIButton!
+//    @IBOutlet weak var testElevenButton: UIButton!
+//    @IBOutlet weak var testTwelveButton: UIButton!
 
     // MARK: - 상태 및 의존성
     private let passcode: [String] = ["1","0","0","7","1","2"]
     private var entered: [String] = [] /// 사용자가 입력한 숫자 기록
+    
+    private var keyPadView: KeyPadView?
+    private var keyBoardView: KeyBoardView?
 
-    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외)
+    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyPadView 내장 버전)
+//    private var digitButtons: [UIButton] {
+//        [oneButton, twoButton, threeButton,
+//         fourButton, fiveButton, sixButton,
+//         sevenButton, eightButton, nineButton,
+//         tenButton, elevenButton].compactMap { $0 }
+//    }
+    
+    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyPadView 외장 버전)
+//    private var digitButtons: [UIButton] {
+//        guard let keypad = keyPadView else { return [] }
+//        return [
+//            keypad.oneButton, keypad.twoButton, keypad.threeButton,
+//            keypad.fourButton, keypad.fiveButton, keypad.sixButton,
+//            keypad.sevenButton, keypad.eightButton, keypad.nineButton,
+//            keypad.tenButton, keypad.elevenButton
+//        ].compactMap { $0 }
+//    }
+    
+    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyBoardView 버전)
     private var digitButtons: [UIButton] {
-        [oneButton, twoButton, threeButton,
-         fourButton, fiveButton, sixButton,
-         sevenButton, eightButton, nineButton,
-         tenButton, elevenButton].compactMap { $0 }
+        guard let keyboard = keyBoardView else { return [] }
+        return [
+            keyboard.oneButton, keyboard.twoButton, keyboard.threeButton,
+            keyboard.fourButton, keyboard.fiveButton, keyboard.sixButton,
+            keyboard.sevenButton, keyboard.eightButton, keyboard.nineButton,
+            keyboard.tenButton, keyboard.elevenButton
+        ].compactMap { $0 }
     }
 
+    
     /// Face ID 사용 가능 여부
     private var isFaceIDAvailable: Bool {
         let context = LAContext()
@@ -49,27 +96,68 @@ class PasscodeLockVIewController: UIViewController {
             return false
         }
     }
+    
 
     // MARK: - 생명주기 (앱의 실행)
     override func viewDidLoad() {
         super.viewDidLoad()
+        keyBoard()
+        keyPad()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
         configureButtons()      // 버튼 타깃/라벨 설정
         randomizeKeypad()       // 키패드 랜덤 배치
         attemptFaceIDIfAvailable() // Face ID 자동 인증 시도
+    }
+    
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    // MARK: - 키보드 테스트
+    private func keyPad() {
+        let myKeypad = Bundle.main.loadNibNamed("KeyPadView", owner: nil, options: nil)
+        guard let keypad = myKeypad?.first as? KeyPadView else { return }
+        self.keyPadView = keypad
+        firstTextField.inputView = keypad
+    }
+    
+    private func keyBoard() {
+        let myKeyboard = Bundle.main.loadNibNamed("KeyBoardView", owner: nil, options: nil)
+        guard let keyboard = myKeyboard?.first as? KeyBoardView else { return }
+        self.keyBoardView = keyboard
+        secondTextField.inputView = keyboard
     }
 
     // MARK: - UI 구성
     /// 키패드/삭제 버튼 타깃 및 접근성 라벨 설정
     private func configureButtons() {
+        /// ?
+        guard !digitButtons.isEmpty else { return }
         // 숫자 버튼: 공통 타깃 연결
         digitButtons.forEach {
             $0.addTarget(self, action: #selector(didTapDigitButton(_:)),
                          for: .touchUpInside) }
-
-        // 삭제(백스페이스) 버튼 설정
-        twelveButton.setTitle("⌫", for: .normal)
-        twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
-        twelveButton.accessibilityLabel = "Delete"
+        
+        
+        /// 삭제(백스페이스) 버튼 설정 (KeyPadView 내장 버전)
+//        twelveButton.setTitle("⌫", for: .normal)
+//        twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
+//        twelveButton.accessibilityLabel = "Delete"
+        
+        /// 삭제(백스페이스) 버튼 설정 (KeyPadView 외장 버전)
+//        guard let keypad = keyPadView else { return }
+//        keypad.twelveButton.setTitle("⌫", for: .normal)
+//        keypad.twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
+//        keypad.twelveButton.accessibilityLabel = "Delete"
+        
+        /// 삭제(백스페이스) 버튼 설정 (KeyBoardView 버전)
+        guard let keyboard = keyBoardView else { return }
+        keyboard.twelveButton.setTitle("⌫", for: .normal)
+        keyboard.twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
+        keyboard.twelveButton.accessibilityLabel = "Delete"
     }
 
     /// 키패드 숫자/Face ID 버튼을 랜덤 배치
@@ -104,14 +192,14 @@ class PasscodeLockVIewController: UIViewController {
                 button.accessibilityLabel = "Face ID"
                 
             } else if value == "" {
-                // 빈칸("") 할당 시: 버튼을 숨김 처리
+                /// 빈칸("") 할당 시: 버튼을 숨김 처리
                 button.setTitle("", for: .normal)
                 button.isHidden = true
                 button.isEnabled = false
                 button.accessibilityLabel = nil
                 
             } else {
-                // 숫자 버튼 처리
+                /// 숫자 버튼 처리
                 button.setTitle(value, for: .normal)
                 button.isHidden = false
                 button.isEnabled = true
@@ -194,3 +282,4 @@ class PasscodeLockVIewController: UIViewController {
         }
     }
 }
+
