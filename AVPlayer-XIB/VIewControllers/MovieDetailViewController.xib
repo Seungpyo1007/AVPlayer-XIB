@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-Fz-0Qd">
-                    <rect key="frame" x="9" y="400" width="375" height="50"/>
+                    <rect key="frame" x="9" y="358" width="375" height="426"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <color key="textColor" systemColor="labelColor"/>
@@ -94,9 +94,9 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Kec-Fz-0Qd" firstAttribute="leading" secondItem="QZs-ZO-if5" secondAttribute="leading" id="AJG-0f-cTV"/>
-                <constraint firstItem="Kec-Fz-0Qd" firstAttribute="top" secondItem="QZs-ZO-if5" secondAttribute="bottom" constant="50" id="Ak1-Ui-d4e"/>
+                <constraint firstItem="Kec-Fz-0Qd" firstAttribute="top" secondItem="QZs-ZO-if5" secondAttribute="bottom" constant="8" symbolic="YES" id="Ak1-Ui-d4e"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="QZs-ZO-if5" secondAttribute="trailing" constant="9" id="Cxy-XM-IiH"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Kec-Fz-0Qd" secondAttribute="bottom" constant="334" id="H1o-kb-jZp"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Kec-Fz-0Qd" secondAttribute="bottom" id="H1o-kb-jZp"/>
                 <constraint firstItem="QZs-ZO-if5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="Jwl-ab-R82"/>
                 <constraint firstItem="QZs-ZO-if5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="9" id="XyF-fn-5s0"/>
                 <constraint firstItem="Kec-Fz-0Qd" firstAttribute="trailing" secondItem="QZs-ZO-if5" secondAttribute="trailing" id="tvT-6O-w2J"/>
