@@ -193,7 +193,7 @@
             </connections>
             <point key="canvasLocation" x="-73.282442748091597" y="-80.281690140845072"/>
         </view>
-        <view contentMode="scaleToFill" id="mSS-aU-sg0">
+        <view contentMode="scaleToFill" id="mSS-aU-sg0" userLabel="View Deprecated">
             <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -338,7 +338,7 @@
                 <constraint firstItem="BeM-KN-6eB" firstAttribute="top" secondItem="ZQc-Za-wSc" secondAttribute="bottom" id="zq3-fy-w3J"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-85.496183206106863" y="227.46478873239437"/>
+            <point key="canvasLocation" x="-142" y="245"/>
         </view>
     </objects>
     <resources>

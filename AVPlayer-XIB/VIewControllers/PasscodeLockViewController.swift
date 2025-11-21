@@ -18,7 +18,7 @@ class PasscodeLockViewController: UIViewController {
     @IBOutlet weak var firstTextField: UITextField!
     @IBOutlet weak var secondTextField: UITextField!
     
-    // PasscodeLockViewController에 있는 KeyPadView (숨겨진 상태)
+    // PasscodeLockViewController에 있는 KeyPadView (내장 키패드) & (숨겨진 상태)
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var twoButton: UIButton!
     @IBOutlet weak var threeButton: UIButton!
@@ -31,32 +31,18 @@ class PasscodeLockViewController: UIViewController {
     @IBOutlet weak var tenButton: UIButton!
     @IBOutlet weak var elevenButton: UIButton!
     @IBOutlet weak var twelveButton: UIButton! /// 삭제(백스페이스) 버튼
-    
-    // MARK: - Test Outlets
-//    @IBOutlet weak var testOneButton: UIButton!
-//    @IBOutlet weak var testTwoButton: UIButton!
-//    @IBOutlet weak var testThreeButton: UIButton!
-//    @IBOutlet weak var testFourButton: UIButton!
-//    @IBOutlet weak var testFiveButton: UIButton!
-//    @IBOutlet weak var testSixButton: UIButton!
-//    @IBOutlet weak var testsevenButton: UIButton!
-//    @IBOutlet weak var testEightButton: UIButton!
-//    @IBOutlet weak var testNineButton: UIButton!
-//    @IBOutlet weak var testTenButton: UIButton!
-//    @IBOutlet weak var testElevenButton: UIButton!
-//    @IBOutlet weak var testTwelveButton: UIButton!
 
     // MARK: - 상태 및 의존성
     private let passcode: [String] = ["1","0","0","7","1","2"]
     private var entered: [String] = [] /// 사용자가 입력한 숫자 기록
     
-    private var keyPadView: KeyPadView?
-    private var keyBoardView: KeyBoardView?
+    private var keyPadView: KeyPadView? /// 키패드 외장 버전
+    private var keyBoardView: KeyBoardView? /// 제약 조건으로 맞춘 키패드
 
     /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외)
     private var digitButtons: [UIButton] {
         var buttons: [UIButton] = []
-        // 1) KeyBoardView에 있는 숫자 버튼들
+        // 1. KeyBoardView에 있는 숫자 버튼들
         if let keyboard = keyBoardView {
             buttons += [
                 keyboard.oneButton, keyboard.twoButton, keyboard.threeButton,
@@ -65,7 +51,7 @@ class PasscodeLockViewController: UIViewController {
                 keyboard.tenButton, keyboard.elevenButton
             ].compactMap { $0 }
         }
-        // 2) 외장 KeyPadView에 있는 숫자 버튼들
+        // 2. 외장 KeyPadView에 있는 숫자 버튼들
         if let keypad = keyPadView {
             buttons += [
                 keypad.oneButton, keypad.twoButton, keypad.threeButton,
@@ -74,7 +60,7 @@ class PasscodeLockViewController: UIViewController {
                 keypad.tenButton, keypad.elevenButton
             ].compactMap { $0 }
         }
-        // 3) 내장 아웃렛 숫자 버튼들
+        // 3. 내장 KeyPadView에 있는 숫자 버튼들
         buttons += [
             oneButton, twoButton, threeButton,
             fourButton, fiveButton, sixButton,
@@ -89,7 +75,7 @@ class PasscodeLockViewController: UIViewController {
     private var isFaceIDAvailable: Bool {
         let context = LAContext()
         var error: NSError?
-        // 생체인증(FaceID) 사용 가능 여부 확인
+        /// 생체인증(FaceID) 사용 가능 여부 확인
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             return context.biometryType == .faceID
         } else {
@@ -102,8 +88,10 @@ class PasscodeLockViewController: UIViewController {
     // MARK: - 생명주기 (앱의 실행)
     override func viewDidLoad() {
         super.viewDidLoad()
-        keyBoard()
-        keyPad()
+        keyBoard() // 외부
+        keyPad() // 키패드 불러오는 임시 버튼 실행
+        
+        // 화면 터치하면 외부 키보드를 끌수 있게 해주는 액션
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -118,13 +106,13 @@ class PasscodeLockViewController: UIViewController {
     }
     
     // MARK: - 키보드 테스트
+    // 외장 키패드
     private func keyPad() {
         let myKeypad = Bundle.main.loadNibNamed("KeyPadView", owner: nil, options: nil)
         guard let keypad = myKeypad?.first as? KeyPadView else { return }
         self.keyPadView = keypad
         firstTextField.inputView = keypad
     }
-    
     private func keyBoard() {
         let myKeyboard = Bundle.main.loadNibNamed("KeyBoardView", owner: nil, options: nil)
         guard let keyboard = myKeyboard?.first as? KeyBoardView else { return }
@@ -210,7 +198,7 @@ class PasscodeLockViewController: UIViewController {
             ])
         }
         
-        // 2) KeyPadView 버튼들에 적용
+        // 2) 외장 KeyPadView 버튼들에 적용
         if let keypad = keyPadView {
             applyPool(to: [
                 keypad.oneButton, keypad.twoButton, keypad.threeButton,
@@ -220,7 +208,7 @@ class PasscodeLockViewController: UIViewController {
             ])
         }
         
-        // 3) 내장 아웃렛 버튼들에 적용
+        // 3) 내장 KeyPadView 버튼들에 적용
         applyPool(to: [
             oneButton, twoButton, threeButton,
             fourButton, fiveButton, sixButton,
