@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		355C84142EC42247002C5944 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 355C840F2EC42235002C5944 /* LocalAuthentication.framework */; };
+		356246412ED043F80044A2E1 /* PrivacyInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 356246402ED043F80044A2E1 /* PrivacyInfo.plist */; };
 		3587A53C2EBB410200AEBD34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3587A5322EBB410200AEBD34 /* AppDelegate.swift */; };
 		3587A53F2EBB410200AEBD34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5332EBB410200AEBD34 /* Assets.xcassets */; };
 		3587A5412EBB410200AEBD34 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3587A5362EBB410200AEBD34 /* LaunchScreen.storyboard */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		355C840F2EC42235002C5944 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		356246402ED043F80044A2E1 /* PrivacyInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.plist; sourceTree = "<group>"; };
 		3587A5022EBB3F5C00AEBD34 /* AVPlayer-XIB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVPlayer-XIB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3587A5322EBB410200AEBD34 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3587A5332EBB410200AEBD34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				3587A5322EBB410200AEBD34 /* AppDelegate.swift */,
 				3587A5332EBB410200AEBD34 /* Assets.xcassets */,
 				3587A5342EBB410200AEBD34 /* Info.plist */,
+				356246402ED043F80044A2E1 /* PrivacyInfo.plist */,
 				3587A5362EBB410200AEBD34 /* LaunchScreen.storyboard */,
 				3587A55D2EBB475700AEBD34 /* VIewControllers */,
 				35F9E0C22EBC901A00636DE6 /* NetworkManager.swift */,
@@ -159,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3587A53F2EBB410200AEBD34 /* Assets.xcassets in Resources */,
+				356246412ED043F80044A2E1 /* PrivacyInfo.plist in Resources */,
 				3587A5412EBB410200AEBD34 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

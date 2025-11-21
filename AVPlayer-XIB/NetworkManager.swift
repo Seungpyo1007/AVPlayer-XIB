@@ -7,20 +7,36 @@
 
 import Foundation
 
+
+/// TMDB API 키를 PrivacyInfo에 숨겨진걸 꺼내주는 역할
+extension Bundle {
+    var bearerToken: String {
+        guard let file = self.path(forResource: "PrivacyInfo", ofType: "plist") else {
+            fatalError("API 파일이 엄")
+        }
+        guard let resource = NSDictionary(contentsOfFile: file) else {
+            fatalError("파일 형식 에러")
+        }
+        guard let key = resource["API"] as? String else {
+            fatalError("PrivacyInfo에 API를 설정해주세요.")
+        }
+        return key
+    }
+    
+}
+
 /// TMDB API 통신을 담당하는 네트워크 매니저
 class NetworkManager {
     
     // MARK: - 상수 선언
-    
     private enum API {
         static let baseURL = "https://api.themoviedb.org/3"
-        static let bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDk0ZTI3ZmVhOGFjOTJhM2IyZDQ2YjlkZjI4OTc2MiIsIm5iZiI6MTc2MTcwMDE3Mi45ODUsInN1YiI6IjY5MDE2OTRjNTJiOWMwMDdmYmM0NjA0YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EEEH1P8JcEUazWnkc4jHSz9PmtFmuLj-RZ4sq-BCAKY"
+        static let bearerToken = Bundle.main.bearerToken
         static let language = "ko-KR"
         static let timeout: TimeInterval = 10
     }
-     
-    // MARK: - 네트워크 에러 로직
     
+    // MARK: - 네트워크 에러 로직
     enum NetworkError: Error {
         case invalidURL
         case noData
@@ -45,7 +61,6 @@ class NetworkManager {
     }
     
     // MARK: - 공개 메서드 (외부에서 호출)
-    
     /// 인기 영화 목록 가져오기
     /// - Parameters:
     ///   - page: 페이지 번호
@@ -105,7 +120,6 @@ class NetworkManager {
     }
     
     // MARK: - 비공개 메서드 (내부 처리)
-    
     /// URLRequest 생성 (Bearer Token 포함)
     private func createRequest(for urlString: String) -> URLRequest? {
         guard let url = URL(string: urlString) else { return nil }
