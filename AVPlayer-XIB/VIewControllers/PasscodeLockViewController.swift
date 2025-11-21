@@ -9,7 +9,7 @@ import UIKit
 import LocalAuthentication
 
 // 1. KeyPadView : 내장버전
-// 2. KeyPadView : 스택뷰로 쌓아서 만든 키패드
+// 2. KeyPadView : 스택뷰로 쌓아서 만든 외장 키패드
 // 3. KeyBoardView : 그냥 제약 조건으로 맞춘 키패드
 class PasscodeLockViewController: UIViewController {
     
@@ -53,34 +53,35 @@ class PasscodeLockViewController: UIViewController {
     private var keyPadView: KeyPadView?
     private var keyBoardView: KeyBoardView?
 
-    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyPadView 내장 버전)
-//    private var digitButtons: [UIButton] {
-//        [oneButton, twoButton, threeButton,
-//         fourButton, fiveButton, sixButton,
-//         sevenButton, eightButton, nineButton,
-//         tenButton, elevenButton].compactMap { $0 }
-//    }
-    
-    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyPadView 외장 버전)
-//    private var digitButtons: [UIButton] {
-//        guard let keypad = keyPadView else { return [] }
-//        return [
-//            keypad.oneButton, keypad.twoButton, keypad.threeButton,
-//            keypad.fourButton, keypad.fiveButton, keypad.sixButton,
-//            keypad.sevenButton, keypad.eightButton, keypad.nineButton,
-//            keypad.tenButton, keypad.elevenButton
-//        ].compactMap { $0 }
-//    }
-    
-    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외) (KeyBoardView 버전)
+    /// 숫자 키패드 버튼 모음 (12번은 삭제 버튼이므로 제외)
     private var digitButtons: [UIButton] {
-        guard let keyboard = keyBoardView else { return [] }
-        return [
-            keyboard.oneButton, keyboard.twoButton, keyboard.threeButton,
-            keyboard.fourButton, keyboard.fiveButton, keyboard.sixButton,
-            keyboard.sevenButton, keyboard.eightButton, keyboard.nineButton,
-            keyboard.tenButton, keyboard.elevenButton
+        var buttons: [UIButton] = []
+        // 1) KeyBoardView에 있는 숫자 버튼들
+        if let keyboard = keyBoardView {
+            buttons += [
+                keyboard.oneButton, keyboard.twoButton, keyboard.threeButton,
+                keyboard.fourButton, keyboard.fiveButton, keyboard.sixButton,
+                keyboard.sevenButton, keyboard.eightButton, keyboard.nineButton,
+                keyboard.tenButton, keyboard.elevenButton
+            ].compactMap { $0 }
+        }
+        // 2) 외장 KeyPadView에 있는 숫자 버튼들
+        if let keypad = keyPadView {
+            buttons += [
+                keypad.oneButton, keypad.twoButton, keypad.threeButton,
+                keypad.fourButton, keypad.fiveButton, keypad.sixButton,
+                keypad.sevenButton, keypad.eightButton, keypad.nineButton,
+                keypad.tenButton, keypad.elevenButton
+            ].compactMap { $0 }
+        }
+        // 3) 내장 아웃렛 숫자 버튼들
+        buttons += [
+            oneButton, twoButton, threeButton,
+            fourButton, fiveButton, sixButton,
+            sevenButton, eightButton, nineButton,
+            tenButton, elevenButton
         ].compactMap { $0 }
+        return buttons
     }
 
     
@@ -142,70 +143,90 @@ class PasscodeLockViewController: UIViewController {
                          for: .touchUpInside) }
         
         
-        /// 삭제(백스페이스) 버튼 설정 (KeyPadView 내장 버전)
-//        twelveButton.setTitle("⌫", for: .normal)
-//        twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
-//        twelveButton.accessibilityLabel = "Delete"
-        
-        /// 삭제(백스페이스) 버튼 설정 (KeyPadView 외장 버전)
-//        guard let keypad = keyPadView else { return }
-//        keypad.twelveButton.setTitle("⌫", for: .normal)
-//        keypad.twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
-//        keypad.twelveButton.accessibilityLabel = "Delete"
-        
-        /// 삭제(백스페이스) 버튼 설정 (KeyBoardView 버전)
-        guard let keyboard = keyBoardView else { return }
-        keyboard.twelveButton.setTitle("⌫", for: .normal)
-        keyboard.twelveButton.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
-        keyboard.twelveButton.accessibilityLabel = "Delete"
+        // 삭제(백스페이스) 버튼 설정: 모든 소스에 대해 동시에 연결
+        var deleteButtons: [UIButton] = []
+        if let keyboard = keyBoardView, let del = keyboard.twelveButton { deleteButtons.append(del) }
+        if let keypad = keyPadView, let del = keypad.twelveButton { deleteButtons.append(del) }
+        if let del = twelveButton { deleteButtons.append(del) }
+
+        deleteButtons.forEach { btn in
+            btn.setTitle("⌫", for: .normal)
+            btn.removeTarget(nil, action: nil, for: .allEvents)
+            btn.addTarget(self, action: #selector(didTapDelete), for: .touchUpInside)
+            btn.accessibilityLabel = "Delete"
+        }
     }
 
     /// 키패드 숫자/Face ID 버튼을 랜덤 배치
     private func randomizeKeypad() {
-        var items: [String] = (0...9).map { String($0) } // 기본 숫자 0~9
-        
+        // 공통 아이템 풀 구성 (0~9 + FaceID 또는 빈칸)
+        var items: [String] = (0...9).map { String($0) }
         if isFaceIDAvailable {
-            // Face ID 지원 시: FaceID 항목 추가
             items.append("FaceID")
         } else {
-            // Face ID 미지원 시: 빈칸("") 항목 추가
             items.append("")
         }
 
-        
-        // 버튼 개수(11개)에 맞춰 셔플/자르기/채우기
-        var pool = items.shuffled()
-        
-        if pool.count > 11 {
-            pool = Array(pool.prefix(11))
-        } else if pool.count < 11 {
-            let extras = (0...9).map { String($0) }.shuffled()
-            for v in extras where pool.count < 11 { pool.append(v) }
-        }
-
-        // 버튼에 값 반영
-        for (button, value) in zip(digitButtons, pool) {
-            if value == "FaceID" {
-                button.setTitle(value, for: .normal)
-                button.isHidden = false
-                button.isEnabled = true
-                button.accessibilityLabel = "Face ID"
-                
-            } else if value == "" {
-                /// 빈칸("") 할당 시: 버튼을 숨김 처리
-                button.setTitle("", for: .normal)
-                button.isHidden = true
-                button.isEnabled = false
-                button.accessibilityLabel = nil
-                
-            } else {
-                /// 숫자 버튼 처리
-                button.setTitle(value, for: .normal)
-                button.isHidden = false
-                button.isEnabled = true
-                button.accessibilityLabel = value
+        // 버튼 배열에 셔플된 풀을 적용하는 헬퍼
+        func applyPool(to buttons: [UIButton?]) {
+            // 버튼 개수(11개)에 맞춰 셔플/자르기/채우기
+            var pool = items.shuffled()
+            if pool.count > 11 {
+                pool = Array(pool.prefix(11))
+            } else if pool.count < 11 {
+                let extras = (0...9).map { String($0) }.shuffled()
+                for v in extras where pool.count < 11 { pool.append(v) }
+            }
+            for (buttonOpt, value) in zip(buttons, pool) {
+                guard let button = buttonOpt else { continue }
+                if value == "FaceID" {
+                    button.setTitle(value, for: .normal)
+                    button.isHidden = false
+                    button.isEnabled = true
+                    button.accessibilityLabel = "Face ID"
+                } else if value == "" {
+                    // 빈칸 처리: 숨김
+                    button.setTitle("", for: .normal)
+                    button.isHidden = true
+                    button.isEnabled = false
+                    button.accessibilityLabel = nil
+                } else {
+                    // 숫자 처리
+                    button.setTitle(value, for: .normal)
+                    button.isHidden = false
+                    button.isEnabled = true
+                    button.accessibilityLabel = value
+                }
             }
         }
+
+        // 1) KeyBoardView 버튼들에 적용
+        if let keyboard = keyBoardView {
+            applyPool(to: [
+                keyboard.oneButton, keyboard.twoButton, keyboard.threeButton,
+                keyboard.fourButton, keyboard.fiveButton, keyboard.sixButton,
+                keyboard.sevenButton, keyboard.eightButton, keyboard.nineButton,
+                keyboard.tenButton, keyboard.elevenButton
+            ])
+        }
+        
+        // 2) KeyPadView 버튼들에 적용
+        if let keypad = keyPadView {
+            applyPool(to: [
+                keypad.oneButton, keypad.twoButton, keypad.threeButton,
+                keypad.fourButton, keypad.fiveButton, keypad.sixButton,
+                keypad.sevenButton, keypad.eightButton, keypad.nineButton,
+                keypad.tenButton, keypad.elevenButton
+            ])
+        }
+        
+        // 3) 내장 아웃렛 버튼들에 적용
+        applyPool(to: [
+            oneButton, twoButton, threeButton,
+            fourButton, fiveButton, sixButton,
+            sevenButton, eightButton, nineButton,
+            tenButton, elevenButton
+        ])
     }
 
     // MARK: - Actions
