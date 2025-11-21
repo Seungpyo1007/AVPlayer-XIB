@@ -13,10 +13,12 @@
             <connections>
                 <outlet property="eightButton" destination="ohZ-46-TMs" id="b7k-nB-xzS"/>
                 <outlet property="elevenButton" destination="lbv-PV-m5d" id="J6o-0o-Cr4"/>
+                <outlet property="firstTextField" destination="oTH-Px-RF9" id="1lH-jp-wDC"/>
                 <outlet property="fiveButton" destination="SsQ-zi-qQ3" id="g3s-48-Qsz"/>
                 <outlet property="fourButton" destination="5Es-yI-LCz" id="Eel-vq-xEw"/>
                 <outlet property="nineButton" destination="pOv-Mi-3MP" id="s9X-LK-foz"/>
                 <outlet property="oneButton" destination="0j1-Oy-Xr7" id="npM-2Q-lJr"/>
+                <outlet property="secondTextField" destination="aHI-xD-Lxn" id="cBj-un-hLk"/>
                 <outlet property="sevenButton" destination="8fq-V8-FJZ" id="CCX-tq-AO1"/>
                 <outlet property="sixButton" destination="rdk-wu-1KK" id="mFk-NE-ZKw"/>
                 <outlet property="tenButton" destination="jvQ-tF-AAD" id="tn0-Qh-042"/>
@@ -31,7 +33,7 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-tI-rR0" userLabel="KeyPadView">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-tI-rR0" userLabel="KeyPadView">
                     <rect key="frame" x="0.0" y="494" width="394" height="290"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vlk-QK-Tqv">
@@ -345,6 +347,24 @@
                         <constraint firstItem="wfQ-Dr-LNY" firstAttribute="centerY" secondItem="P9h-Bk-hZJ" secondAttribute="centerY" id="vTL-BI-H2S"/>
                     </constraints>
                 </view>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oTH-Px-RF9">
+                    <rect key="frame" x="148.66666666666666" y="230" width="97" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="RCk-5T-u72"/>
+                        <constraint firstAttribute="width" constant="97" id="dM3-ai-bOM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aHI-xD-Lxn">
+                    <rect key="frame" x="148.66666666666666" y="180" width="97" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="btE-Ig-KNU"/>
+                        <constraint firstAttribute="width" constant="97" id="iVl-Pe-NT3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -352,9 +372,15 @@
                 <constraint firstAttribute="top" secondItem="P9h-Bk-hZJ" secondAttribute="top" id="2lf-kF-UAR"/>
                 <constraint firstItem="0Qf-tI-rR0" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="325-hs-Jqs"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="P9h-Bk-hZJ" secondAttribute="bottom" constant="654" id="4Ri-ab-4nV"/>
+                <constraint firstItem="oTH-Px-RF9" firstAttribute="leading" secondItem="aHI-xD-Lxn" secondAttribute="leading" id="5Zl-Ax-8QB"/>
+                <constraint firstItem="oTH-Px-RF9" firstAttribute="trailing" secondItem="aHI-xD-Lxn" secondAttribute="trailing" id="7dl-Yh-DF0"/>
                 <constraint firstItem="P9h-Bk-hZJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="9uP-bc-ZuC"/>
+                <constraint firstItem="oTH-Px-RF9" firstAttribute="top" secondItem="aHI-xD-Lxn" secondAttribute="bottom" constant="16" id="CXs-YN-nnO"/>
                 <constraint firstItem="0Qf-tI-rR0" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Eqf-iG-gbc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aHI-xD-Lxn" secondAttribute="trailing" constant="148.33333333333334" id="ivv-Zl-C8G"/>
                 <constraint firstItem="0Qf-tI-rR0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="lAu-hO-piH"/>
+                <constraint firstItem="aHI-xD-Lxn" firstAttribute="top" secondItem="P9h-Bk-hZJ" secondAttribute="bottom" constant="50" id="pUH-aD-DLj"/>
+                <constraint firstItem="aHI-xD-Lxn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="148.66666666666666" id="sFL-Kr-SAj"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="P9h-Bk-hZJ" secondAttribute="trailing" id="w1w-iJ-j1C"/>
             </constraints>
             <point key="canvasLocation" x="550" y="237"/>
